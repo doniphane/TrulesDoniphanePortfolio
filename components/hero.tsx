@@ -15,7 +15,7 @@ const pacifico = Pacifico({
 
 export default function Hero() {
   const [text, setText] = useState("");
-  const fullText = "Développeur Web & Web Mobile";
+  const fullText = "Concepteur Developpeur D'application";
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Hero() {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/cv.pdf"; // Le fichier cv.pdf doit être dans ton dossier public/
+    link.href = "/cv.pdf"; 
     link.download = "cv.pdf";
     document.body.appendChild(link);
     link.click();
