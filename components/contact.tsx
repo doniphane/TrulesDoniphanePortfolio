@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, Mail, Github, Linkedin } from "lucide-react"
+import Link from "next/link"
 
 export default function Contact() {
   const [ref, inView] = useInView({
@@ -48,37 +49,55 @@ export default function Contact() {
             <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 backdrop-blur-sm border-none">
               <CardContent className="p-6 space-y-6">
                 <div className="flex justify-center space-x-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full h-12 w-12 hover:bg-primary hover:text-white transition-colors"
+                  
+                  {/* Email */}
+                  <a href="mailto:trulesdoniphane974@gmail.com" target="_blank" rel="noopener noreferrer">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full h-12 w-12 hover:bg-primary hover:text-white transition-colors"
+                    >
+                      <Mail className="h-5 w-5" />
+                      <span className="sr-only">Email</span>
+                    </Button>
+                  </a>
+
+                  {/* Github (en attente de ton lien) */}
+                  <a href="https://github.com/doniphane" target="_blank" rel="noopener noreferrer">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full h-12 w-12 hover:bg-primary hover:text-white transition-colors"
+                    >
+                      <Github className="h-5 w-5" />
+                      <span className="sr-only">Github</span>
+                    </Button>
+                  </a>
+
+                  {/* LinkedIn */}
+                  <a
+                    href="https://www.linkedin.com/in/doniphane-trules-970638318/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <Mail className="h-5 w-5" />
-                    <span className="sr-only">Email</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full h-12 w-12 hover:bg-primary hover:text-white transition-colors"
-                  >
-                    <Github className="h-5 w-5" />
-                    <span className="sr-only">Github</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full h-12 w-12 hover:bg-primary hover:text-white transition-colors"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                    <span className="sr-only">LinkedIn</span>
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full h-12 w-12 hover:bg-primary hover:text-white transition-colors"
+                    >
+                      <Linkedin className="h-5 w-5" />
+                      <span className="sr-only">LinkedIn</span>
+                    </Button>
+                  </a>
                 </div>
 
                 <div className="text-center">
-                  <Button size="lg" className="group">
-                    <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" />
-                    Télécharger mon CV
-                  </Button>
+                  <Link href="/cv.pdf" target="_blank" download legacyBehavior>
+                    <Button size="lg" className="group">
+                      <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                      Télécharger mon CV
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

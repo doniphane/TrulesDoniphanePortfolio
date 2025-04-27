@@ -8,7 +8,10 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Trules Doniphane - Portfolio",
   description: "Portfolio de Trules Doniphane, Développeur Web & Web Mobile",
-    generator: 'v0.dev'
+    generator: '',
+     icons: {
+    icon: "/favicon.png", 
+  },
 }
 
 export default function RootLayout({
