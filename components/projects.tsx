@@ -5,19 +5,73 @@ import { useInView } from "react-intersection-observer"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, Plus, X } from "lucide-react"
-import { projectsData } from "@/data/projects"
+import { ExternalLink, Github, Plus, X, Calendar } from "lucide-react"
+import { projectsData, Project } from "@/data/projects"
+import { DemoButton } from "@/components/ui/demo-modal"
+
+interface ProjectCardProps {
+  project: Project
+  index: number
+}
+
+function getBadgeClassesForTechnology(technologyName: string): string {
+  const trimmedName: string = technologyName.trim()
+  const lowerCaseName: string = trimmedName.toLowerCase().replace("#", "")
+
+  if (lowerCaseName === "tailwind css" || lowerCaseName === "tailwind") {
+    return "border-transparent bg-blue-500 text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "reactjs" || lowerCaseName === "react") {
+    return "border-transparent bg-blue-700 text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "next.js" || lowerCaseName === "nextjs" || lowerCaseName === "next") {
+    return "border-transparent bg-black text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "php") {
+    return "border-transparent bg-purple-600 text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "mysql") {
+    return "border-transparent bg-yellow-500 text-black hover:opacity-90"
+  }
+
+  if (lowerCaseName === "supabase" || lowerCaseName === "superbase") {
+    return "border-transparent bg-green-600 text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "html") {
+    return "border-transparent bg-orange-500 text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "css") {
+    return "border-transparent bg-blue-400 text-white hover:opacity-90"
+  }
+
+  if (lowerCaseName === "js" || lowerCaseName === "javascript") {
+    return "border-transparent bg-yellow-400 text-black hover:opacity-90"
+  }
+
+  if (lowerCaseName === "typescript") {
+    return "border-transparent bg-blue-600 text-white hover:opacity-90"
+  }
+
+  return "border-transparent bg-gray-200 text-gray-800 hover:opacity-90"
+}
 
 export default function Projects() {
-  const [showAllProjects, setShowAllProjects] = useState(false)
+  const [showAllProjects, setShowAllProjects] = useState<boolean>(false)
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
 
  
-  const displayedProjects = showAllProjects ? projectsData : projectsData.slice(0, 6)
-  const hasMoreProjects = projectsData.length > 6
+  const sortedProjects: Project[] = projectsData.slice().sort((a: Project, b: Project) => b.id - a.id)
+  const displayedProjects: Project[] = showAllProjects ? sortedProjects : sortedProjects.slice(0, 6)
+  const hasMoreProjects: boolean = projectsData.length > 6
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -50,7 +104,7 @@ export default function Projects() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedProjects.map((project, index) => (
+            {displayedProjects.map((project: Project, index: number) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </motion.div>
@@ -78,7 +132,7 @@ export default function Projects() {
   )
 }
 
-function ProjectCard({ project, index }: { project: any; index: number }) {
+function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <motion.div
       variants={{
@@ -103,12 +157,16 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
         </div>
         <CardHeader className="pb-2">
           <CardTitle>{project.title}</CardTitle>
+          <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            {new Date(project.date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: '2-digit' })}
+          </p>
         </CardHeader>
         <CardContent className="flex-grow">
           <p className="text-muted-foreground mb-4">{project.description}</p>
           <div className="flex flex-wrap gap-2">
             {project.technologies.map((tech: string) => (
-              <Badge key={tech} variant="outline">
+              <Badge key={tech} variant="outline" className={getBadgeClassesForTechnology(tech)}>
                 {tech}
               </Badge>
             ))}
@@ -130,6 +188,9 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
                 Code source
               </a>
             </Button>
+          )}
+          {project.demo && (
+            <DemoButton demoUrl={project.demo} projectTitle={project.title} />
           )}
         </CardFooter>
       </Card>
