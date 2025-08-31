@@ -14,7 +14,7 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     id: 13,
-    title: "Commpressimg",
+    title: "Commpressimgs",
     description: `Application web statique permettant de convertir un grand volume d'images en un temps record grâce à l'intégration d'une librairie JavaScript spécialisée.
     Le projet est né d'un besoin personnel : convertir des centaines d'images pour un autre projet en optimisant la vitesse et la simplicité d'utilisation.
 `,
