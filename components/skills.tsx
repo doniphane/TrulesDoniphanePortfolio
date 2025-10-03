@@ -39,11 +39,23 @@ const skills: Record<string, Skill[]> = {
       description: "Compétence actuellement en cours d'apprentissage.",
       icon: "⚛️",
     },
+    {
+      name: "Next.js",
+      status: "learning",
+      description: "Compétence actuellement en cours d'apprentissage.",
+      icon: "⚛️",
+    },
+    {
+      name: "flutter",
+      status: "learning",
+      description: "Compétence actuellement en cours d'apprentissage.",
+      icon: "📱",
+    },
   ],
   backend: [
     {
       name: "Node.js",
-      status: "learning",
+      status: "mastered",
       description: "Compétence actuellement en cours d'apprentissage.",
       icon: "🟢",
     },
@@ -61,15 +73,21 @@ const skills: Record<string, Skill[]> = {
     },
     {
       name: "MongoDB",
-      status: "learning",
+      status: "mastered",
       description: "Compétence actuellement en cours d'apprentissage.",
       icon: "🍃",
     },
     {
       name: "Symphony",
-      status: "learning",
+      status: "mastered",
       description: "Compétence actuellement en cours d'apprentissage.",
       icon: "🎵",
+    },
+    {
+      name: "Supabase",
+      status: "learning",
+      description: "Compétence actuellement en cours d'apprentissage.",
+      icon: "💾",
     },
   ],
   divers: [

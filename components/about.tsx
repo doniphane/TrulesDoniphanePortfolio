@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Cpu, Gamepad2, Globe, Laptop, Shield } from "lucide-react"
+import { Cpu, Gamepad2, Globe, Laptop, Shield, GraduationCap, MapPin, Heart } from "lucide-react"
 
 export default function About() {
   const [ref, inView] = useInView({
@@ -54,15 +54,15 @@ export default function About() {
                 <TabsList className="grid grid-cols-3 max-w-md">
                   <TabsTrigger value="profile" className="flex flex-col items-center gap-2 py-3 px-4">
                     <Globe className="h-5 w-5" />
-                    <span>Profil</span>
+                    <span className="text-xs sm:text-sm">Profil</span>
                   </TabsTrigger>
                   <TabsTrigger value="journey" className="flex flex-col items-center gap-2 py-3 px-4">
-                    <Laptop className="h-5 w-5" />
-                    <span>Parcours</span>
+                    <GraduationCap className="h-5 w-5" />
+                    <span className="text-xs sm:text-sm">Parcours</span>
                   </TabsTrigger>
                   <TabsTrigger value="hobbies" className="flex flex-col items-center gap-2 py-3 px-4">
-                    <Gamepad2 className="h-5 w-5" />
-                    <span>Passions</span>
+                    <Heart className="h-5 w-5" />
+                    <span className="text-xs sm:text-sm">Passions</span>
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -93,8 +93,8 @@ export default function About() {
                         <div className="relative">
                           <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary/20 to-transparent rounded-full"></div>
                           <p className="pl-4 text-muted-foreground leading-relaxed">
-                            En parallèle de mes projets web, je consacre une partie de mon temps libre avec ma team amis  à une de mes
-                            passions: les Capture The Flag comme celles proposées par Hack The Box ou TryHackMe.
+                            En parallèle de mes projets web, je consacre une partie de mon temps libre avec ma team d&apos;amis à une de mes
+                            passions : les Capture The Flag comme celles proposées par Hack The Box ou TryHackMe.
                             Ces challenges de cybersécurité me permettent d&apos;exercer ma curiosité, de renforcer ma
                             logique et de développer mes compétences en hacking éthique.
                           </p>
@@ -124,7 +124,7 @@ export default function About() {
 
                           <div className="flex items-center gap-3 group">
                             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              <Globe className="h-5 w-5 text-primary" />
+                              <MapPin className="h-5 w-5 text-primary" />
                             </div>
                             <div>
                               <p className="text-sm text-muted-foreground">Localisation</p>
@@ -164,28 +164,34 @@ export default function About() {
               <TabsContent value="journey" className="mt-0">
                 <Card className="overflow-hidden border-primary/10 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
                   <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="h-10 w-1 bg-gradient-to-b from-primary to-primary/30 rounded-full"></div>
+                      <h3 className="text-2xl font-semibold">Mon Parcours</h3>
+                    </div>
                     <div className="space-y-8">
                       <div className="relative pl-8 pb-8 border-l-2 border-primary/30">
-                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary"></div>
+                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary shadow-lg"></div>
                         <div className="mb-2">
-                          <Badge className="mb-2">Actuellement</Badge>
+                          <Badge className="mb-2 bg-primary/20 text-primary border-primary/30">🎯 Actuellement</Badge>
                           <h3 className="text-xl font-semibold">
                             Formation Concepteur Développeur d&apos;Applications
                           </h3>
+                          <p className="text-sm text-muted-foreground">📍 Ariane Formation</p>
                         </div>
                         <p className="text-muted-foreground">
-                          Je poursuis actuellement cette formation au centre de Formation Ariane Formation  pour approfondir mes compétences en développement et
-                          élargir mon expertise et poursuivre la suite de ka formation devellopeur web & web mobile .
+                          Je poursuis actuellement cette formation au centre de Formation Ariane Formation pour approfondir mes compétences en développement et
+                          élargir mon expertise dans la suite de la formation développeur web & web mobile.
                         </p>
                       </div>
 
                       <div className="relative pl-8 pb-8 border-l-2 border-primary/30">
-                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary/70"></div>
+                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary/70 shadow-md"></div>
                         <div className="mb-2">
-                          <Badge variant="outline" className="mb-2">
-                            Précédemment
+                          <Badge variant="outline" className="mb-2 border-primary/40">
+                            ✅ Terminé
                           </Badge>
                           <h3 className="text-xl font-semibold">Formation Développeur Web & Web Mobile</h3>
+                          <p className="text-sm text-muted-foreground">📍 Institut de Formation de la Réunion (IFR)</p>
                         </div>
                         <p className="text-muted-foreground">
                           J&apos;ai complété ma formation en développement web à l&apos;Institut de Formation de la
@@ -193,11 +199,11 @@ export default function About() {
                         </p>
                       </div>
 
-                      <div className="relative pl-8">
-                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary/50"></div>
+                      <div className="relative pl-8 pb-8 border-l-2 border-primary/30">
+                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary/50 shadow-sm"></div>
                         <div className="mb-2">
-                          <Badge variant="outline" className="mb-2">
-                            Formation initiale
+                          <Badge variant="outline" className="mb-2 border-primary/30">
+                            🎓 Formation initiale
                           </Badge>
                           <h3 className="text-xl font-semibold">BTS Électronique et Communication</h3>
                         </div>
@@ -207,23 +213,20 @@ export default function About() {
                         </p>
                       </div>
 
-                        <div className="relative pl-8">
-                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary/50"></div>
+                      <div className="relative pl-8">
+                        <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary/30 shadow-sm"></div>
                         <div className="mb-2">
-                          <Badge variant="outline" className="mb-2">
-                            Bac Pro
+                          <Badge variant="outline" className="mb-2 border-primary/20">
+                            📚 Bac Pro
                           </Badge>
-                          <h3 className="text-xl font-semibold">Baccalauréat Pro Spécialité Science
-Numérique</h3>
+                          <h3 className="text-xl font-semibold">Baccalauréat Pro Spécialité Sciences Numériques</h3>
+                          <p className="text-sm text-muted-foreground">📍 Lycée de Trois Bassins, La Réunion</p>
                         </div>
                         <p className="text-muted-foreground">
-                       Lycée De Trois Bassins La réunion
-
+                          Formation qui m&apos;a initié aux technologies numériques
+                          et m&apos;a donné les bases pour ma reconversion vers le développement web.
                         </p>
                       </div>
-                      
-                      
-                      
                     </div>
                   </CardContent>
                 </Card>
