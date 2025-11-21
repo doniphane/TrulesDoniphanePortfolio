@@ -172,7 +172,7 @@ export default function About() {
                       <div className="relative pl-8 pb-8 border-l-2 border-primary/30">
                         <div className="absolute left-[-8px] top-0 h-4 w-4 rounded-full bg-primary shadow-lg"></div>
                         <div className="mb-2">
-                          <Badge className="mb-2 bg-primary/20 text-primary border-primary/30">🎯 Actuellement</Badge>
+                          <Badge className="mb-2 bg-primary/20 text-primary border-primary/30"> ✅ Terminé</Badge>
                           <h3 className="text-xl font-semibold">
                             Formation Concepteur Développeur d&apos;Applications
                           </h3>

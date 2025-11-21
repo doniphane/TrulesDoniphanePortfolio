@@ -25,7 +25,19 @@ export interface Project {
 
 
 export const projectsData: Project[] = [
-    {
+     {
+    id: 16,
+    title: "Blog de la Team Kuroizana",
+    description: `Plateforme de quiz en ligne pour faire passer des quizz à des  élèves`,
+    technologies: ["Nextjs", "Tailwind CSS","PostgreSQL"],
+    date: "2025-11-21",
+    image: "/TeamKuroizana.png",
+    link: "https://teamkuroizana.noelson-elisa.com",
+    github: "",
+    status: "actif",
+    projectKey: "Team Kuroizana",
+  
+  },{
     id: 15,
     title: "Acadyo Quizz",
     description: `Plateforme de quiz en ligne pour faire passer des quizz à des  élèves`,
