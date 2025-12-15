@@ -5,7 +5,6 @@ import { useInView } from "react-intersection-observer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, Mail, Github, Linkedin } from "lucide-react"
-import Link from "next/link"
 
 export default function Contact() {
   const [ref, inView] = useInView({
@@ -92,12 +91,12 @@ export default function Contact() {
                 </div>
 
                 <div className="text-center">
-                  <Link href="/cv.pdf" target="_blank" download legacyBehavior>
+                  <a href="/cv.pdf" target="_blank" download>
                     <Button size="lg" className="group">
                       <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" />
                       Télécharger mon CV
                     </Button>
-                  </Link>
+                  </a>
                 </div>
               </CardContent>
             </Card>
