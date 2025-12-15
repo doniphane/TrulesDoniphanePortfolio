@@ -32,7 +32,7 @@ export const projectsData: Project[] = [
     technologies: ["Nextjs", "Tailwind CSS","PostgreSQL"],
     date: "2025-11-21",
     image: "/16.png",
-    link: "https://teamkuroizana.noelson-elisa.com",
+    link: "https://teamkuroizanablog.vercel.app/",
     github: "",
     status: "actif",
     projectKey: "Team Kuroizana",
@@ -47,7 +47,7 @@ export const projectsData: Project[] = [
     link: "https://acadyoquizz.noelsonnelly.xyz/login",
     github: "",
     demo: "https://www.youtube.com/watch?v=-urkSHoTkkI",
-    status: "actif",
+    status: "inactif",
     projectKey: "Acadyo Quizz",
   
   },{
