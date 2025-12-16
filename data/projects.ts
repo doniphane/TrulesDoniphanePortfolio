@@ -25,7 +25,20 @@ export interface Project {
 
 
 export const projectsData: Project[] = [
-     {
+      {
+    id: 17,
+    title: "DevChallenge Qualité de l'eau ",
+    description: `Petit challenge proposer par le youtuber Yohandev sur sont site https://devchallenges.yoandev.co/ que j'ai relever en realisant une application de suivi de la qualité de l'eau.`,
+    technologies: ["VueJS", "Tailwind CSS","API Gouvernementale"],
+    date: "2025-12-16",
+    image: "/Screenshot 2025-12-16 203004.png",
+    link: "https://dev-challenge-qualite-eau.vercel.app/",
+    github: "https://github.com/doniphane/devChallenge-qualit--eau?tab=readme-ov-file",
+    status: "actif",
+    demo: "https://youtu.be/VYv7INsB7Cg",
+    projectKey: "DevChallenge Qualité de l'eau",
+  
+  },{
     id: 16,
     title: "Blog de la Team Kuroizana",
     description: `Plateforme de quiz en ligne pour faire passer des quizz à des  élèves`,

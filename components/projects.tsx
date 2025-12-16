@@ -1,12 +1,12 @@
 "use client"
 import { useState, useMemo } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Github, Plus, X, Calendar, Search } from "lucide-react"
+import { ExternalLink, Github, Plus, X, Calendar, Search, Loader2 } from "lucide-react"
 import { projectsData, Project } from "@/data/projects"
 import { DemoButton } from "@/components/ui/demo-modal"
 import { VersionHistoryModal } from "@/components/ui/version-history-modal"
@@ -67,6 +67,9 @@ function getBadgeClassesForTechnology(technologyName: string): string {
 export default function Projects() {
   const [showAllProjects, setShowAllProjects] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const projectsPerPage = 6
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -106,8 +109,47 @@ export default function Projects() {
     })
   }, [searchQuery, groupedProjects])
 
-  const displayedProjects: Project[] = showAllProjects ? filteredProjects : filteredProjects.slice(0, 6)
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage)
+  const startIndex = showAllProjects ? (currentPage - 1) * projectsPerPage : 0
+  const endIndex = showAllProjects ? startIndex + projectsPerPage : 6
+  const displayedProjects: Project[] = filteredProjects.slice(startIndex, endIndex)
   const hasMoreProjects: boolean = filteredProjects.length > 6
+
+  const handleToggleProjects = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setShowAllProjects(!showAllProjects)
+      if (!showAllProjects) {
+        setCurrentPage(1) // Reset to first page when showing all
+      }
+      setIsLoading(false)
+    }, 300)
+  }
+
+  const handlePageChange = (page: number) => {
+    setIsLoading(true)
+    setCurrentPage(page)
+
+    // Scroll vers le haut en douceur après un court délai
+    setTimeout(() => {
+      const projectsSection = document.getElementById('projects')
+      if (projectsSection) {
+        const offset = 80 // Décalage pour ne pas coller au bord
+        const elementPosition = projectsSection.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - offset
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+      }
+    }, 150)
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -157,19 +199,46 @@ export default function Projects() {
             )}
           </motion.div>
 
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            key={`page-${currentPage}-${showAllProjects}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {displayedProjects.map((project: Project, index: number) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </motion.div>
 
-          {hasMoreProjects && (
-            <motion.div variants={itemVariants} className="flex justify-center mt-8">
-              <Button size="lg" className="group" onClick={() => setShowAllProjects(!showAllProjects)}>
-                {showAllProjects ? (
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-center items-center py-8"
+            >
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </motion.div>
+          )}
+
+          {hasMoreProjects && !showAllProjects && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="flex justify-center mt-8"
+            >
+              <Button
+                size="lg"
+                className="group"
+                onClick={handleToggleProjects}
+                disabled={isLoading}
+              >
+                {isLoading ? (
                   <>
-                    <X className="mr-2 h-4 w-4" />
-                    Afficher moins de projets
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Chargement...
                   </>
                 ) : (
                   <>
@@ -177,6 +246,59 @@ export default function Projects() {
                     Afficher plus de projets
                   </>
                 )}
+              </Button>
+            </motion.div>
+          )}
+
+          {showAllProjects && totalPages > 1 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center gap-4 mt-8"
+            >
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1 || isLoading}
+                >
+                  Précédent
+                </Button>
+
+                <div className="flex gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handlePageChange(page)}
+                      disabled={isLoading}
+                      className="min-w-[40px]"
+                    >
+                      {page}
+                    </Button>
+                  ))}
+                </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages || isLoading}
+                >
+                  Suivant
+                </Button>
+              </div>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleToggleProjects}
+                disabled={isLoading}
+              >
+                <X className="mr-2 h-4 w-4" />
+                Masquer la pagination
               </Button>
             </motion.div>
           )}
@@ -189,16 +311,12 @@ export default function Projects() {
 function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.5,
-            delay: index * 0.1,
-          },
-        },
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.08,
+        ease: [0.25, 0.1, 0.25, 1],
       }}
     >
       <Card className="h-full flex flex-col overflow-hidden group hover:shadow-lg transition-all duration-300 border-primary/10 hover:border-primary/30">
