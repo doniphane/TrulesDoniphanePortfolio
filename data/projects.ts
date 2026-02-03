@@ -24,8 +24,20 @@ export interface Project {
 }
 
 
-export const projectsData: Project[] = [
-      {
+export const projectsData: Project[] = [ {
+      id: 18,
+    title: "DevChallenge #2026-WEEK-04 ",
+    description: `Petit challenge proposer par le youtuber Yohandev sur sont site https://devchallenges.yoandev.co/challenge/2026-week-04/`,
+    technologies: ["ReactJS", "Tailwind CSS","API Pokemon"],
+    date: "2026-02-03",
+    image: "/gemini-2.5-flash-image_create_a_vibrant_wallpaper_featuring_a_variety_of_Pokémon_with_a_bold_and_color-0.webp",
+    link: "https://dev-challenge-pokedex-2026-week-04-lei6dmqwh.vercel.app/",
+    github: "https://github.com/doniphane/dev-challenge-pokedex--2026-WEEK-04",
+    status: "actif",
+    demo: "https://youtu.be/VYv7INsB7Cg",
+    projectKey: "DevChallenge #2026-WEEK-04",
+  
+  },{
     id: 17,
     title: "DevChallenge Qualité de l'eau ",
     description: `Petit challenge proposer par le youtuber Yohandev sur sont site https://devchallenges.yoandev.co/ que j'ai relever en realisant une application de suivi de la qualité de l'eau.`,
