@@ -25,6 +25,18 @@ export interface Project {
 
 
 export const projectsData: Project[] = [ {
+      id: 19,
+    title: "QueenChat APP MOBILE",
+    description: `Ma première expérience de développement d'application mobile avec flutter et dart`,
+    technologies: ["Flutter", "Dart", "mobile"],
+    date: "2026-02-03",
+    image: "/queenchat.webp",
+    status: "actif",
+    github: "https://github.com/doniphane/DEV-MOBILE-queenchatmobile",
+    demo: "https://youtu.be/61yANF92EEg",
+    projectKey: "QueenChat APP MOBILE",
+  
+  },{
       id: 18,
     title: "DevChallenge #2026-WEEK-04 ",
     description: `Petit challenge proposer par le youtuber Yohandev sur sont site https://devchallenges.yoandev.co/challenge/2026-week-04/`,
