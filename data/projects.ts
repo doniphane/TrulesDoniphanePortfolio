@@ -46,7 +46,6 @@ export const projectsData: Project[] = [ {
     link: "https://dev-challenge-pokedex-2026-week-04-lei6dmqwh.vercel.app/",
     github: "https://github.com/doniphane/dev-challenge-pokedex--2026-WEEK-04",
     status: "actif",
-    demo: "https://youtu.be/VYv7INsB7Cg",
     projectKey: "DevChallenge #2026-WEEK-04",
   
   },{
