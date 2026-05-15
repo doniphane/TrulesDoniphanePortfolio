@@ -25,6 +25,18 @@ export interface Project {
 
 
 export const projectsData: Project[] = [ {
+      id: 20,
+    title: "Flow-yoga",
+    description: `Landing page pour un projet client  de yoga en ligne`,
+    technologies: ["nextjs", "PHP", "Tailwind CSS"],
+    date: "2026-05-15",
+    image: "/flow-yoga.png",
+    status: "actif",
+    github: "",
+    demo: "https://youtu.be/4RyzZ5tAV5s",
+    projectKey: "Flow-yoga",
+  
+  },{
       id: 19,
     title: "QueenChat APP MOBILE",
     description: `Ma première expérience de développement d'application mobile avec flutter et dart`,
@@ -42,7 +54,7 @@ export const projectsData: Project[] = [ {
     description: `Petit challenge proposer par le youtuber Yohandev sur sont site https://devchallenges.yoandev.co/challenge/2026-week-04/`,
     technologies: ["ReactJS", "Tailwind CSS","API Pokemon"],
     date: "2026-02-03",
-    image: "/gemini-2.5-flash-image_create_a_vibrant_wallpaper_featuring_a_variety_of_Pokémon_with_a_bold_and_color-0.webp",
+    image: "/pokedex.png",
     link: "https://dev-challenge-pokedex-2026-week-04-lei6dmqwh.vercel.app/",
     github: "https://github.com/doniphane/dev-challenge-pokedex--2026-WEEK-04",
     status: "actif",
@@ -54,7 +66,7 @@ export const projectsData: Project[] = [ {
     description: `Petit challenge proposer par le youtuber Yohandev sur sont site https://devchallenges.yoandev.co/ que j'ai relever en realisant une application de suivi de la qualité de l'eau.`,
     technologies: ["VueJS", "Tailwind CSS","API Gouvernementale"],
     date: "2025-12-16",
-    image: "/Screenshot 2025-12-16 203004.png",
+    image: "/15.png",
     link: "https://dev-challenge-qualite-eau.vercel.app/",
     github: "https://github.com/doniphane/devChallenge-qualit--eau?tab=readme-ov-file",
     status: "actif",
@@ -70,7 +82,7 @@ export const projectsData: Project[] = [ {
     image: "/16.png",
     link: "https://teamkuroizanablog.vercel.app/",
     github: "",
-    status: "actif",
+    status: "inactif",
     projectKey: "Team Kuroizana",
   
   },{

@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 
 export default function Home() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider>
       <main className="min-h-screen">
         <div className="fixed top-4 right-4 z-50">
           <ModeToggle />
