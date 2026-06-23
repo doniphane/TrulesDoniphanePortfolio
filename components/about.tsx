@@ -77,7 +77,7 @@ export default function About() {
                           <h3 className="text-2xl font-semibold">Qui suis-je?</h3>
                         </div>
                         <p className="text-muted-foreground leading-relaxed">
-                          Je m&apos;appelle Doniphane Trules, jeune développeur Web & Web Mobile de 24 ans, passionné
+                          Je m&apos;appelle Doniphane Trules, jeune développeur Web & Web Mobile de 25 ans, passionné
                           par la technologie depuis mon plus jeune âge. Issu d&apos;un BTS en électronique et
                           communication, j&apos;ai décidé de me reconvertir dans le développement Web, une voie dans
                           laquelle je m&apos;épanouis pleinement.
@@ -114,11 +114,11 @@ export default function About() {
                         <div className="space-y-4">
                           <div className="flex items-center gap-3 group">
                             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              <span className="text-lg font-semibold">24</span>
+                              <span className="text-lg font-semibold">25</span>
                             </div>
                             <div>
                               <p className="text-sm text-muted-foreground">Âge</p>
-                              <p className="font-medium">24 ans</p>
+                              <p className="font-medium">25 ans</p>
                             </div>
                           </div>
 
