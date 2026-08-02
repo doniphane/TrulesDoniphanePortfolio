@@ -5,54 +5,45 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Download, Mail, ExternalLink, Github, Linkedin, ChevronDown } from "lucide-react";
 import HeroGeometric from "./hero-geometric";
-import { Pacifico } from "next/font/google";
 
-const pacifico = Pacifico({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-pacifico",
-});
+const texts = [
+  "Concepteur Développeur d'Applications",
+  "Développeur Web & Web Mobile",
+  "Passionné de Cybersécurité",
+];
 
 export default function Hero() {
   const [text, setText] = useState("");
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const texts = [
-    "Concepteur Développeur d'Applications",
-    "Développeur Web & Web Mobile",
-    "Passionné de Cybersécurité",
-  ];
-
-  const [index, setIndex] = useState(0);
-
   useEffect(() => {
     const currentText = texts[currentTextIndex];
+    const deleting = isDeleting;
 
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        // Typing effect
-        if (index < currentText.length) {
-          setText((prev) => prev + currentText[index]);
-          setIndex((prev) => prev + 1);
-        } else {
-          // Pause before deleting
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
-      } else {
-        // Deleting effect
-        if (text.length > 0) {
-          setText((prev) => prev.slice(0, -1));
-        } else {
-          setIsDeleting(false);
-          setIndex(0);
-          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
-        }
-      }
-    }, isDeleting ? 50 : 100);
+    const start = deleting ? 40 : 90;
+
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!deleting && text === currentText) {
+      // Pause à la fin du mot avant la suppression
+      timeout = setTimeout(() => setIsDeleting(true), 2000);
+    } else if (deleting && text === "") {
+      // Passe au mot suivant
+      timeout = setTimeout(() => {
+        setIsDeleting(false);
+        setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+      }, 400);
+    } else {
+      timeout = setTimeout(() => {
+        setText((prev) =>
+          deleting ? prev.slice(0, -1) : currentText.slice(0, prev.length + 1),
+        );
+      }, start);
+    }
 
     return () => clearTimeout(timeout);
-  }, [index, isDeleting, currentTextIndex, text, texts]);
+  }, [text, currentTextIndex, isDeleting]);
 
   const handleDownload = () => {
     const link = document.createElement("a");
@@ -86,6 +77,10 @@ export default function Hero() {
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-background">
+          <div className="absolute inset-0 glow-violet" />
+          <div className="absolute inset-0 bg-grid-faint" />
+        </div>
         <HeroGeometric badge="Portfolio" title1="Trules" title2="Doniphane" />
       </div>
 
@@ -98,14 +93,14 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 1.5 }}
             className="space-y-4 md:space-y-6"
           >
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-white/90">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-foreground/90">
               Bonjour, je suis
             </h2>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white">
-              Trules Doniphane
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-foreground">
+              Trules <span className="text-gradient">Doniphane</span>
             </h1>
             <div className="h-12 md:h-16 flex items-center justify-center">
-              <p className="text-xl md:text-2xl lg:text-3xl font-medium text-white/80">
+              <p className="text-xl md:text-2xl lg:text-3xl font-medium text-foreground/80">
                 {text}
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
@@ -116,7 +111,7 @@ export default function Hero() {
                 </motion.span>
               </p>
             </div>
-            <p className="max-w-[700px] text-white/70 text-base md:text-lg leading-relaxed px-4 md:px-0">
+            <p className="max-w-[700px] text-foreground/70 text-base md:text-lg leading-relaxed px-4 md:px-0">
               Développeur passionné spécialisé dans la création d&apos;applications web modernes.
               J&apos;allie créativité technique et innovation pour donner vie à vos projets digitaux.
             </p>
@@ -132,7 +127,7 @@ export default function Hero() {
             <Button
               size="lg"
               onClick={handleDownload}
-              className="group bg-white text-black hover:bg-white/90 font-semibold px-8 py-3 text-base"
+              className="group bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 py-3 text-base"
             >
               <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
               Télécharger mon CV
@@ -143,7 +138,7 @@ export default function Hero() {
                 size="lg"
                 variant="outline"
                 onClick={handleContact}
-                className="group bg-white/10 hover:bg-white/20 text-white border-white/30 hover:border-white/50"
+                className="group border-border/40 hover:border-primary/50"
               >
                 <Mail className="mr-2 h-4 w-4" />
                 Me contacter
@@ -153,7 +148,7 @@ export default function Hero() {
                 size="lg"
                 variant="outline"
                 onClick={handleProjects}
-                className="group bg-white/10 hover:bg-white/20 text-white border-white/30 hover:border-white/50"
+                className="group border-border/40 hover:border-primary/50"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Mes projets
@@ -169,7 +164,7 @@ export default function Hero() {
             className="flex items-center gap-6 mt-8 md:mt-12"
           >
             <div className="flex items-center gap-4">
-              <span className="text-white/60 text-sm">Suivez-moi :</span>
+              <span className="text-foreground/60 text-sm">Suivez-moi :</span>
               <div className="flex gap-4">
                 <motion.a
                   href="https://github.com/doniphane"
@@ -177,7 +172,7 @@ export default function Hero() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-300"
+                  className="p-3 rounded-full bg-card/50 hover:bg-primary/20 text-foreground/70 hover:text-primary border border-border/40 transition-all duration-300"
                 >
                   <Github className="h-5 w-5" />
                 </motion.a>
@@ -188,7 +183,7 @@ export default function Hero() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-300"
+                  className="p-3 rounded-full bg-card/50 hover:bg-primary/20 text-foreground/70 hover:text-primary border border-border/40 transition-all duration-300"
                 >
                   <Linkedin className="h-5 w-5" />
                 </motion.a>
@@ -209,15 +204,15 @@ export default function Hero() {
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.95 }}
             >
-              <p className="text-sm text-white/60 group-hover:text-white/80 transition-colors">
+              <p className="text-sm text-foreground/60 group-hover:text-foreground/80 transition-colors">
                 Découvrez mon parcours
               </p>
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="p-2 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors"
+                className="p-2 rounded-full bg-card/50 group-hover:bg-primary/20 border border-border/40 transition-colors"
               >
-                <ChevronDown className="h-5 w-5 text-white/60 group-hover:text-white/80" />
+                <ChevronDown className="h-5 w-5 text-foreground/60 group-hover:text-foreground/80" />
               </motion.div>
             </motion.button>
           </motion.div>

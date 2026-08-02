@@ -13,14 +13,14 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <Badge
       variant="secondary"
       className={cn(
-        "absolute top-3 right-3 z-10 text-xs font-semibold border",
+        "absolute top-3 right-3 z-10 text-xs font-semibold border backdrop-blur-md",
         isActive
-          ? "bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-200 dark:border-green-700"
-          : "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-700",
+          ? "bg-green-500/90 text-white border-white/10 shadow-[0_0_12px_rgba(34,197,94,0.5)]"
+          : "bg-red-500/90 text-white border-white/10 shadow-[0_0_12px_rgba(239,68,68,0.5)]",
         className
       )}
     >
-      {isActive ? "🟢 Actif" : "🔴 Inactif"}
+      {isActive ? "Actif" : "Inactif"}
     </Badge>
   )
 }

@@ -27,7 +27,7 @@ function getBadgeClassesForTechnology(technologyName: string): string {
   }
 
   if (lowerCaseName === "next.js" || lowerCaseName === "nextjs" || lowerCaseName === "next") {
-    return "border-transparent bg-black text-white hover:opacity-90"
+    return "border-transparent bg-zinc-900 text-white hover:opacity-90"
   }
 
   if (lowerCaseName === "php") {
@@ -62,7 +62,7 @@ function getBadgeClassesForTechnology(technologyName: string): string {
     return "border-transparent bg-blue-600 text-white hover:opacity-90"
   }
 
-  return "border-transparent bg-gray-200 text-gray-800 hover:opacity-90"
+  return "border-transparent bg-primary/20 text-primary-foreground hover:opacity-90"
 }
 
 export function VersionHistoryModal({ versions, projectTitle }: VersionHistoryModalProps) {

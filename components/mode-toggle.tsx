@@ -16,7 +16,7 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" className="rounded-full bg-background/80 backdrop-blur-sm" disabled>
+      <Button variant="outline" size="icon" className="rounded-full border-border/60 bg-card/40 backdrop-blur-md" disabled>
         <Sun className="h-[1.2rem] w-[1.2rem]" />
       </Button>
     )
@@ -25,7 +25,7 @@ export function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full bg-background/80 backdrop-blur-sm">
+        <Button variant="outline" size="icon" className="rounded-full border-border/60 bg-card/40 backdrop-blur-md">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>

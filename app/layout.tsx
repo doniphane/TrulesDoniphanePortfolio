@@ -8,9 +8,8 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Trules Doniphane - Portfolio",
   description: "Portfolio de Trules Doniphane, Développeur Web & Web Mobile",
-    generator: '',
-     icons: {
-    icon: "/favicon.png", 
+  icons: {
+    icon: "/favicon.png",
   },
 }
 
@@ -21,6 +20,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var stored = localStorage.getItem("theme");
+              var theme = stored === "light" ? "light" : "dark";
+              if (theme === "dark") {
+                document.documentElement.classList.add("dark");
+              } else {
+                document.documentElement.classList.remove("dark");
+              }
+            } catch (e) {}
+          })();
+        ` }} />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
