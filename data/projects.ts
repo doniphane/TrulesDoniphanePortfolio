@@ -112,6 +112,14 @@ export const projectsData: Project[] = [ {
     projectKey: "pokedex-shiny",
     versions: [
       {
+        version: "v1.0",
+        date: "2024-07-20",
+        changes: ["Version initiale du Pokédex", "Interface de base pour compter les shinies", "Intégration Supabase"],
+        technologies: ["Next.js", "Tailwind CSS", "Supabase"],
+        link: "https://v0-pokemon-website-delta.vercel.app/",
+        github: "https://github.com/doniphane/pokedex-shiny-"
+      },
+      {
         version: "v2.0",
         date: "2025-09-13",
         changes: ["Migration vers PostgreSQL", "Nouvelle interface améliorée", "Ajout de fonctionnalités avancées", "Optimisation des performances"],
@@ -199,13 +207,13 @@ export const projectsData: Project[] = [ {
     id: 10,
     title: "Pokedex Shiny ",
     description: "Petit projet personnel faire un pokedex pour compter mes shiny capturer ",
-    technologies: ["Next.js", "Tailwind CSS", "Superbase"],
+    technologies: ["Next.js", "Tailwind CSS", "Supabase"],
     date: "2024-07-20",
     image: "/pokedex.png",
     link: "https://v0-pokemon-website-delta.vercel.app/",
     github: "https://github.com/doniphane/pokedex-shiny-",
     status: "inactif",
-    projectKey: "pokedex-shiny",
+    projectKey: "pokedex-shiny-standalone",
     versions: [
       {
         version: "v1.0",
@@ -353,7 +361,7 @@ export const projectsData: Project[] = [ {
     description: "Site fictif de location de voiture",
     technologies: ["HTML", "Tailwind CSS", "JavaScript", "PHP"],
     date: "2023-07-18",
-    image: "4.png",
+    image: "/4.png",
     github: "https://github.com/doniphane/Tropizcartours",
     status: "inactif",
     projectKey: "tropizzcartour",
