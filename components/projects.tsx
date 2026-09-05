@@ -5,7 +5,17 @@ import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ExternalLink, Github, X, Calendar, Search, Loader2, FolderOpen, ArrowRight } from "lucide-react"
+import {
+  ExternalLink,
+  Github,
+  X,
+  Calendar,
+  Search,
+  Loader2,
+  FolderOpen,
+  ArrowRight,
+  ArrowUpRight,
+} from "lucide-react"
 import { projectsData, Project } from "@/data/projects"
 import { DemoButton } from "@/components/ui/demo-modal"
 import { VersionHistoryModal } from "@/components/ui/version-history-modal"
@@ -14,40 +24,38 @@ import { StatusBadge } from "@/components/ui/status-badge"
 interface ProjectCardProps {
   project: Project
   index: number
+  featured?: boolean
 }
 
-/* Palette de couleurs par technologie (pastilles) */
 function getTechColor(technologyName: string): string {
   const t = technologyName.trim().toLowerCase().replace("#", "")
-
   const palette: Record<string, string> = {
-    "html": "#e34f26",
-    "css": "#1572b6",
-    "js": "#f7df1e",
-    "javascript": "#f7df1e",
-    "typescript": "#3178c6",
-    "react": "#61dafb",
-    "reactjs": "#61dafb",
-    "next.js": "#ffffff",
-    "nextjs": "#ffffff",
-    "next": "#ffffff",
-    "tailwind": "#38bdf8",
+    html: "#e34f26",
+    css: "#1572b6",
+    js: "#f7df1e",
+    javascript: "#f7df1e",
+    typescript: "#3178c6",
+    react: "#61dafb",
+    reactjs: "#61dafb",
+    "next.js": "#1a1a1a",
+    nextjs: "#1a1a1a",
+    next: "#1a1a1a",
+    tailwind: "#38bdf8",
     "tailwind css": "#38bdf8",
-    "php": "#777bb4",
-    "mysql": "#4479a1",
-    "supabase": "#3ecf8e",
-    "superbase": "#3ecf8e",
-    "postgresql": "#336791",
-    "symfony": "#8e44ad",
-    "vue": "#42b883",
-    "vuejs": "#42b883",
-    "flutter": "#46c6f2",
-    "dart": "#0175c2",
-    "mobile": "#9c9c9c",
+    php: "#777bb4",
+    mysql: "#4479a1",
+    supabase: "#3ecf8e",
+    superbase: "#3ecf8e",
+    postgresql: "#336791",
+    symfony: "#8e44ad",
+    vue: "#42b883",
+    vuejs: "#42b883",
+    flutter: "#46c6f2",
+    dart: "#0175c2",
+    mobile: "#9c9c9c",
     "api pokemon": "#ffcb05",
   }
-
-  return palette[t] ?? "#8b5cf6"
+  return palette[t] ?? "#c2703e"
 }
 
 const ALL = "all"
@@ -61,46 +69,51 @@ export default function Projects() {
   const projectsPerPage = 6
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  /* Regroupe par clé de projet en gardant la dernière version */
   const groupedProjects = useMemo(() => {
     const grouped = new Map<string, Project>()
     projectsData.forEach((project: Project) => {
       const key = project.projectKey || project.title
       const existing = grouped.get(key)
-      if (!existing || project.id > existing.id) {
-        grouped.set(key, project)
-      }
+      if (!existing || project.id > existing.id) grouped.set(key, project)
     })
     return Array.from(grouped.values()).sort((a, b) => b.id - a.id)
   }, [])
 
-  /* Filtres : recherche + technologie */
   const techs = useMemo(() => {
     const set = new Set<string>()
-    groupedProjects.forEach((p) =>
-      p.technologies.forEach((t) => set.add(t))
-    )
+    groupedProjects.forEach((p) => p.technologies.forEach((t) => set.add(t)))
     return Array.from(set).sort()
   }, [groupedProjects])
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim()
     return groupedProjects.filter((project: Project) => {
-      if (activeTech !== ALL && !project.technologies.some((t) => t.toLowerCase() === activeTech.toLowerCase())) {
+      if (
+        activeTech !== ALL &&
+        !project.technologies.some(
+          (t) => t.toLowerCase() === activeTech.toLowerCase()
+        )
+      )
         return false
-      }
       if (!query) return true
-      const titleMatch = project.title.toLowerCase().includes(query)
-      const techMatch = project.technologies.some((tech) => tech.toLowerCase().includes(query))
-      return titleMatch || techMatch
+      return (
+        project.title.toLowerCase().includes(query) ||
+        project.technologies.some((tech) =>
+          tech.toLowerCase().includes(query)
+        )
+      )
     })
   }, [searchQuery, activeTech, groupedProjects])
 
-  /* Pagination */
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage)
-  const startIndex = showAllProjects ? (currentPage - 1) * projectsPerPage : 0
+  const startIndex = showAllProjects
+    ? (currentPage - 1) * projectsPerPage
+    : 0
   const endIndex = showAllProjects ? startIndex + projectsPerPage : 6
-  const displayedProjects: Project[] = filteredProjects.slice(startIndex, endIndex)
+  const displayedProjects: Project[] = filteredProjects.slice(
+    startIndex,
+    endIndex
+  )
   const hasMoreProjects: boolean = filteredProjects.length > 6
 
   const resetPagination = () => {
@@ -121,47 +134,40 @@ export default function Projects() {
     setIsLoading(true)
     setCurrentPage(page)
     setTimeout(() => {
-      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" })
+      document
+        .getElementById("projects")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" })
     }, 150)
     setTimeout(() => setIsLoading(false), 500)
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  }
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
-
   return (
-    <section id="projects" className="relative py-24 bg-background overflow-hidden">
-      <div className="absolute inset-0 glow-violet pointer-events-none" />
-      <div className="container relative px-4 md:px-6">
+    <section id="projects" className="relative py-24 bg-grain overflow-hidden">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12">
         <motion.div
           ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6 }}
           className="space-y-12"
         >
-          {/* En-tête */}
-          <motion.div variants={itemVariants} className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-              <FolderOpen className="h-4 w-4" />
-              Portfolio
+          {/* Header */}
+          <div className="max-w-2xl">
+            <span className="text-sm font-medium tracking-widest uppercase text-primary mb-3 block">
+              03 — Portfolio
             </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Mes Projets <span className="text-gradient">Réalisés</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+              Mes Projets{" "}
+              <span className="text-gradient italic">Réalisés</span>
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              Découvrez une sélection de mes réalisations : sites, applications web et mobiles, challenges et projets personnels.
+            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+              Découvrez une sélection de mes réalisations : sites,
+              applications web et mobiles, challenges et projets personnels.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Recherche + filtres */}
-          <motion.div variants={itemVariants} className="mx-auto max-w-xl space-y-5">
+          {/* Search + Filters */}
+          <div className="max-w-xl space-y-5">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -172,18 +178,19 @@ export default function Projects() {
                   setSearchQuery(e.target.value)
                   resetPagination()
                 }}
-                className="pl-10 pr-4 py-2.5 w-full"
+                className="pl-10"
               />
             </div>
-
-            {/* Filtre par technologie */}
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => { setActiveTech(ALL); resetPagination() }}
-                className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                onClick={() => {
+                  setActiveTech(ALL)
+                  resetPagination()
+                }}
+                className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                   activeTech === ALL
-                    ? "border-primary/50 bg-primary/15 text-primary"
-                    : "border-border/70 bg-card/30 text-muted-foreground hover:text-foreground"
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Tous
@@ -191,100 +198,131 @@ export default function Projects() {
               {techs.slice(0, 8).map((tech) => (
                 <button
                   key={tech}
-                  onClick={() => { setActiveTech(tech); resetPagination() }}
-                  className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                  onClick={() => {
+                    setActiveTech(tech)
+                    resetPagination()
+                  }}
+                  className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                     activeTech === tech
-                      ? "border-primary/50 bg-primary/15 text-primary"
-                      : "border-border/70 bg-card/30 text-muted-foreground hover:text-foreground"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {tech}
                 </button>
               ))}
             </div>
-
             {searchQuery && (
-              <p className="text-center text-sm text-muted-foreground">
-                {filteredProjects.length} résultat{filteredProjects.length !== 1 ? "s" : ""} trouvé{filteredProjects.length !== 1 ? "s" : ""}
+              <p className="text-sm text-muted-foreground">
+                {filteredProjects.length} résultat
+                {filteredProjects.length !== 1 ? "s" : ""} trouvé
+                {filteredProjects.length !== 1 ? "s" : ""}
               </p>
             )}
-          </motion.div>
+          </div>
 
-          {/* Grille de projets */}
-          <motion.div
-            key={`page-${currentPage}-${showAllProjects}-${activeTech}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {displayedProjects.map((project: Project, index: number) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
-          </motion.div>
+          {/* Featured Project */}
+          {displayedProjects.length > 0 && (
+            <motion.div
+              key={`featured-${currentPage}-${activeTech}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <FeaturedProjectCard project={displayedProjects[0]} />
+            </motion.div>
+          )}
+
+          {/* Grid of remaining projects */}
+          {displayedProjects.length > 1 && (
+            <motion.div
+              key={`grid-${currentPage}-${showAllProjects}-${activeTech}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              {displayedProjects.slice(1).map(
+                (project: Project, index: number) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    index={index}
+                  />
+                )
+              )}
+            </motion.div>
+          )}
 
           {isLoading && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center items-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </motion.div>
+            <div className="flex justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            </div>
           )}
 
           {hasMoreProjects && !showAllProjects && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="flex justify-center mt-8"
-            >
-              <Button size="lg" className="group" onClick={handleToggleProjects} disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Chargement...
-                  </>
-                ) : (
-                  <>
-                    <ArrowRight className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    Afficher plus de projets
-                  </>
-                )}
+            <div className="flex justify-center mt-8">
+              <Button
+                size="lg"
+                variant="outline"
+                className="group"
+                onClick={handleToggleProjects}
+                disabled={isLoading}
+              >
+                <ArrowRight className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                Afficher plus de projets
               </Button>
-            </motion.div>
+            </div>
           )}
 
           {showAllProjects && totalPages > 1 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center gap-4 mt-8"
-            >
+            <div className="flex flex-col items-center gap-4 mt-8">
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1 || isLoading}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1 || isLoading}
+                >
                   Précédent
                 </Button>
                 <div className="flex gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <Button
-                      key={page}
-                      variant={currentPage === page ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handlePageChange(page)}
-                      disabled={isLoading}
-                      className="min-w-[40px]"
-                    >
-                      {page}
-                    </Button>
-                  ))}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <Button
+                        key={page}
+                        variant={
+                          currentPage === page ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handlePageChange(page)}
+                        disabled={isLoading}
+                        className="min-w-[40px]"
+                      >
+                        {page}
+                      </Button>
+                    )
+                  )}
                 </div>
-                <Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages || isLoading}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages || isLoading}
+                >
                   Suivant
                 </Button>
               </div>
-              <Button variant="ghost" size="sm" onClick={handleToggleProjects} disabled={isLoading}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleToggleProjects}
+                disabled={isLoading}
+              >
                 <X className="mr-2 h-4 w-4" />
                 Masquer la pagination
               </Button>
-            </motion.div>
+            </div>
           )}
         </motion.div>
       </div>
@@ -292,75 +330,245 @@ export default function Projects() {
   )
 }
 
+/* ─── Featured Card (full-width magazine spread) ─── */
+function FeaturedProjectCard({ project }: { project: Project }) {
+  return (
+    <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/50 hover:border-primary/30 transition-all duration-500">
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[420px]">
+        {/* Image side */}
+        <div className="relative overflow-hidden bg-muted min-h-[280px] lg:min-h-0">
+          <Image
+            src={project.image || "/placeholder.svg?height=600&width=800"}
+            alt={project.title}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background/40 hidden lg:block" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent lg:hidden" />
+          <StatusBadge status={project.status} />
+
+          {/* Index number */}
+          <div className="absolute top-5 left-5 text-6xl font-bold text-white/10 font-serif italic select-none">
+            01
+          </div>
+        </div>
+
+        {/* Content side */}
+        <div className="flex flex-col justify-between p-7 md:p-9">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Calendar className="h-3 w-3" />
+                {new Date(project.date).toLocaleDateString("fr-FR", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </span>
+              <span className="h-1 w-1 rounded-full bg-border" />
+              <span className="text-xs font-medium text-primary uppercase tracking-wider">
+                Projet vedette
+              </span>
+            </div>
+
+            <h3
+              className="text-2xl md:text-3xl font-bold leading-snug text-foreground mb-3"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              {project.title}
+            </h3>
+
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              {project.description}
+            </p>
+          </div>
+
+          <div>
+            {/* Technologies */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.technologies.map((tech: string) => (
+                <span
+                  key={tech}
+                  className="inline-flex items-center gap-1.5 border border-border/60 bg-muted/30 px-3 py-1 text-xs font-medium text-foreground/80 rounded-full"
+                >
+                  <span
+                    className="h-2 w-2 rounded-full"
+                    style={{ backgroundColor: getTechColor(tech) }}
+                  />
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-wrap gap-3">
+              {project.link && (
+                <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Voir le projet
+                    <ArrowUpRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+              )}
+              {project.github && (
+                <Button variant="outline" asChild>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Github className="mr-2 h-4 w-4" />
+                    Code source
+                  </a>
+                </Button>
+              )}
+              {project.demo && (
+                <DemoButton
+                  demoUrl={project.demo}
+                  projectTitle={project.title}
+                />
+              )}
+              {project.versions && project.versions.length > 0 && (
+                <VersionHistoryModal
+                  versions={project.versions}
+                  projectTitle={project.title}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Standard Card ─── */
 function ProjectCard({ project, index }: ProjectCardProps) {
+  const isEven = index % 2 === 0
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.96, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-      whileHover={{ y: -6 }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-primary/15 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-[0_20px_60px_-20px_rgba(139,92,246,0.45)]"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className={`group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card/50 hover:border-primary/30 transition-all duration-500 ${
+        isEven ? "" : "md:mt-8"
+      }`}
     >
-      {/* Image avec overlay */}
-      <div className="relative h-52 overflow-hidden">
+      {/* Image */}
+      <div className="relative h-56 overflow-hidden bg-muted">
         <Image
           src={project.image || "/placeholder.svg?height=400&width=600"}
           alt={project.title}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0815] via-[#0a0815]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" />
         <StatusBadge status={project.status} />
+
+        {/* Index number overlay */}
+        <div className="absolute bottom-3 right-4 text-4xl font-bold text-white/10 font-serif italic select-none">
+          {String(index + 2).padStart(2, "0")}
+        </div>
       </div>
 
-      {/* Contenu */}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="mb-2 flex items-center justify-between">
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5" />
-            {new Date(project.date).toLocaleDateString("fr-FR", { year: "numeric", month: "long" })}
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Calendar className="h-3 w-3 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">
+            {new Date(project.date).toLocaleDateString("fr-FR", {
+              year: "numeric",
+              month: "long",
+            })}
           </span>
         </div>
-        <h3 className="text-xl font-semibold leading-snug text-white">{project.title}</h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+
+        <h3
+          className="text-xl font-bold leading-snug text-foreground mb-2"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          {project.title}
+        </h3>
+
+        <p className="flex-1 text-sm text-muted-foreground leading-relaxed mb-5">
+          {project.description}
+        </p>
 
         {/* Technologies */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {project.technologies.map((tech: string) => (
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {project.technologies.slice(0, 4).map((tech: string) => (
             <span
               key={tech}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/40 px-2.5 py-1 text-xs font-medium text-foreground/80"
+              className="inline-flex items-center gap-1.5 border border-border/60 bg-muted/30 px-2.5 py-1 text-[11px] font-medium text-foreground/80 rounded-full"
             >
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: getTechColor(tech) }} />
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: getTechColor(tech) }}
+              />
               {tech}
             </span>
           ))}
+          {project.technologies.length > 4 && (
+            <span className="inline-flex items-center px-2.5 py-1 text-[11px] font-medium text-muted-foreground rounded-full border border-border/40">
+              +{project.technologies.length - 4}
+            </span>
+          )}
         </div>
 
         {/* Actions */}
-        <div className="mt-5 flex flex-wrap gap-2 border-t border-border/60 pt-4">
+        <div className="flex flex-wrap gap-2 border-t border-border/60 pt-4 mt-auto">
           {project.link && (
-            <Button variant="outline" size="sm" asChild className="flex-1">
-              <a href={project.link} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-1.5 h-4 w-4" />
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="flex-1"
+            >
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
                 Voir
               </a>
             </Button>
           )}
           {project.github && (
-            <Button variant="outline" size="sm" asChild className="flex-1">
-              <a href={project.github} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-1.5 h-4 w-4" />
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="flex-1"
+            >
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="mr-1.5 h-3.5 w-3.5" />
                 Code
               </a>
             </Button>
           )}
           {project.demo && (
-            <DemoButton demoUrl={project.demo} projectTitle={project.title} />
+            <DemoButton
+              demoUrl={project.demo}
+              projectTitle={project.title}
+            />
           )}
           {project.versions && project.versions.length > 0 && (
-            <VersionHistoryModal versions={project.versions} projectTitle={project.title} />
+            <VersionHistoryModal
+              versions={project.versions}
+              projectTitle={project.title}
+            />
           )}
         </div>
       </div>

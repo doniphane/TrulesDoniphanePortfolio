@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Download, Mail, ExternalLink, Github, Linkedin, ChevronDown } from "lucide-react";
+import { Download, Mail, ExternalLink, Github, Linkedin, Youtube, ChevronDown } from "lucide-react";
 import HeroGeometric from "./hero-geometric";
 
 const texts = [
@@ -20,16 +20,12 @@ export default function Hero() {
   useEffect(() => {
     const currentText = texts[currentTextIndex];
     const deleting = isDeleting;
-
     const start = deleting ? 40 : 90;
-
     let timeout: ReturnType<typeof setTimeout>;
 
     if (!deleting && text === currentText) {
-      // Pause à la fin du mot avant la suppression
       timeout = setTimeout(() => setIsDeleting(true), 2000);
     } else if (deleting && text === "") {
-      // Passe au mot suivant
       timeout = setTimeout(() => {
         setIsDeleting(false);
         setCurrentTextIndex((prev) => (prev + 1) % texts.length);
@@ -55,168 +51,169 @@ export default function Hero() {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  const handleContact = () => {
-    scrollToSection('contact');
-  };
-
-  const handleProjects = () => {
-    scrollToSection('projects');
-  };
-
-  const handleScrollDown = () => {
-    scrollToSection('about');
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-background">
-          <div className="absolute inset-0 glow-violet" />
-          <div className="absolute inset-0 bg-grid-faint" />
-        </div>
-        <HeroGeometric badge="Portfolio" title1="Trules" title2="Doniphane" />
+        <HeroGeometric />
       </div>
 
-      {/* Content */}
-      <div className="container relative z-10 px-4 md:px-6 max-w-6xl">
-        <div className="flex flex-col items-center text-center space-y-6 md:space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.5 }}
-            className="space-y-4 md:space-y-6"
-          >
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-foreground/90">
-              Bonjour, je suis
-            </h2>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-foreground">
-              Trules <span className="text-gradient">Doniphane</span>
-            </h1>
-            <div className="h-12 md:h-16 flex items-center justify-center">
-              <p className="text-xl md:text-2xl lg:text-3xl font-medium text-foreground/80">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left: Text */}
+          <div className="lg:col-span-7 space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="inline-block text-sm font-medium tracking-widest uppercase text-primary mb-4">
+                Portfolio
+              </span>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.05]">
+                Bonjour, je suis
+                <br />
+                <span className="text-gradient italic">Trules Doniphane</span>
+              </h1>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="h-10"
+            >
+              <p className="text-xl md:text-2xl text-muted-foreground font-light">
                 {text}
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
                   transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-primary"
+                  className="text-primary font-normal"
                 >
                   |
                 </motion.span>
               </p>
-            </div>
-            <p className="max-w-[700px] text-foreground/70 text-base md:text-lg leading-relaxed px-4 md:px-0">
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="text-lg text-muted-foreground leading-relaxed max-w-xl"
+            >
               Développeur passionné spécialisé dans la création d&apos;applications web modernes.
               J&apos;allie créativité technique et innovation pour donner vie à vos projets digitaux.
-            </p>
-          </motion.div>
+            </motion.p>
 
-          {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.8 }}
-            className="flex flex-col sm:flex-row gap-4 items-center"
-          >
-            <Button
-              size="lg"
-              onClick={handleDownload}
-              className="group bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 py-3 text-base"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="flex flex-wrap gap-4 pt-2"
             >
-              <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-              Télécharger mon CV
-            </Button>
-
-            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                size="lg"
+                onClick={handleDownload}
+                className="group bg-primary text-primary-foreground hover:bg-primary/90 font-medium px-8"
+              >
+                <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" />
+                Télécharger mon CV
+              </Button>
               <Button
                 size="lg"
                 variant="outline"
-                onClick={handleContact}
-                className="group border-border/40 hover:border-primary/50"
+                onClick={() => scrollToSection('contact')}
+                className="group border-border hover:border-primary/50"
               >
                 <Mail className="mr-2 h-4 w-4" />
                 Me contacter
               </Button>
-
               <Button
                 size="lg"
                 variant="outline"
-                onClick={handleProjects}
-                className="group border-border/40 hover:border-primary/50"
+                onClick={() => scrollToSection('projects')}
+                className="group border-border hover:border-primary/50"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Mes projets
               </Button>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          {/* Social Links */}
+          {/* Right: Monogram */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 2.1 }}
-            className="flex items-center gap-6 mt-8 md:mt-12"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="lg:col-span-5 flex justify-center lg:justify-end"
           >
-            <div className="flex items-center gap-4">
-              <span className="text-foreground/60 text-sm">Suivez-moi :</span>
-              <div className="flex gap-4">
-                <motion.a
-                  href="https://github.com/doniphane"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="p-3 rounded-full bg-card/50 hover:bg-primary/20 text-foreground/70 hover:text-primary border border-border/40 transition-all duration-300"
-                >
-                  <Github className="h-5 w-5" />
-                </motion.a>
-
-                <motion.a
-                  href="https://linkedin.com/in/doniphane-trules"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="p-3 rounded-full bg-card/50 hover:bg-primary/20 text-foreground/70 hover:text-primary border border-border/40 transition-all duration-300"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </motion.a>
+            <div className="relative">
+              <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-2 border-primary/20 flex items-center justify-center bg-card/30 backdrop-blur-sm">
+                <span className="text-7xl md:text-8xl font-bold text-gradient italic" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  DT
+                </span>
               </div>
+              <div className="absolute -bottom-4 -right-4 w-20 h-20 border border-primary/30 rounded-full" />
+              <div className="absolute -top-6 -left-6 w-12 h-12 border border-primary/20 rounded-full" />
             </div>
-          </motion.div>
-
-          {/* Scroll Down Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 2.4 }}
-            className="mt-8 md:mt-12"
-          >
-            <motion.button
-              onClick={handleScrollDown}
-              className="flex flex-col items-center space-y-2 group cursor-pointer"
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <p className="text-sm text-foreground/60 group-hover:text-foreground/80 transition-colors">
-                Découvrez mon parcours
-              </p>
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="p-2 rounded-full bg-card/50 group-hover:bg-primary/20 border border-border/40 transition-colors"
-              >
-                <ChevronDown className="h-5 w-5 text-foreground/60 group-hover:text-foreground/80" />
-              </motion.div>
-            </motion.button>
           </motion.div>
         </div>
+
+        {/* Social Links */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          className="mt-16 flex items-center gap-6"
+        >
+          <span className="text-sm text-muted-foreground tracking-wide">Suivez-moi</span>
+          <div className="flex gap-3">
+            <a
+              href="https://github.com/doniphane"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 border border-border rounded-full hover:border-primary/50 hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all duration-300"
+            >
+              <Github className="h-4 w-4" />
+            </a>
+            <a
+              href="https://linkedin.com/in/doniphane-trules"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 border border-border rounded-full hover:border-primary/50 hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all duration-300"
+            >
+              <Linkedin className="h-4 w-4" />
+            </a>
+            <a
+              href="https://www.youtube.com/@noelson9749/videos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 border border-border rounded-full hover:border-primary/50 hover:bg-primary/5 text-muted-foreground hover:text-primary transition-all duration-300"
+            >
+              <Youtube className="h-4 w-4" />
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Scroll Down */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.button
+            onClick={() => scrollToSection('about')}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+          >
+            <span className="text-xs tracking-widest uppercase">Découvrir</span>
+            <ChevronDown className="h-4 w-4" />
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );

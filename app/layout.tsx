@@ -1,13 +1,10 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Trules Doniphane - Portfolio",
-  description: "Portfolio de Trules Doniphane, Développeur Web & Web Mobile",
+  description: "Portfolio de Trules Doniphane, Concepteur Développeur d'Applications",
   icons: {
     icon: "/favicon.png",
   },
@@ -35,7 +32,7 @@ export default function RootLayout({
           })();
         ` }} />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
   )
 }
