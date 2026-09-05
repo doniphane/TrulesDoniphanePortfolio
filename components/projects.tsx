@@ -16,7 +16,6 @@ interface ProjectCardProps {
   index: number
 }
 
-/* Palette de couleurs par technologie (pastilles) */
 function getTechColor(technologyName: string): string {
   const t = technologyName.trim().toLowerCase().replace("#", "")
 
@@ -47,7 +46,7 @@ function getTechColor(technologyName: string): string {
     "api pokemon": "#ffcb05",
   }
 
-  return palette[t] ?? "#8b5cf6"
+  return palette[t] ?? "#3b82f6" // Default to blue
 }
 
 const ALL = "all"
@@ -61,7 +60,6 @@ export default function Projects() {
   const projectsPerPage = 6
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  /* Regroupe par clé de projet en gardant la dernière version */
   const groupedProjects = useMemo(() => {
     const grouped = new Map<string, Project>()
     projectsData.forEach((project: Project) => {
@@ -74,7 +72,6 @@ export default function Projects() {
     return Array.from(grouped.values()).sort((a, b) => b.id - a.id)
   }, [])
 
-  /* Filtres : recherche + technologie */
   const techs = useMemo(() => {
     const set = new Set<string>()
     groupedProjects.forEach((p) =>
@@ -96,7 +93,6 @@ export default function Projects() {
     })
   }, [searchQuery, activeTech, groupedProjects])
 
-  /* Pagination */
   const totalPages = Math.ceil(filteredProjects.length / projectsPerPage)
   const startIndex = showAllProjects ? (currentPage - 1) * projectsPerPage : 0
   const endIndex = showAllProjects ? startIndex + projectsPerPage : 6
@@ -137,7 +133,9 @@ export default function Projects() {
 
   return (
     <section id="projects" className="relative py-24 bg-background overflow-hidden">
-      <div className="absolute inset-0 glow-violet pointer-events-none" />
+      <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+      
       <div className="container relative px-4 md:px-6">
         <motion.div
           ref={ref}
@@ -146,44 +144,43 @@ export default function Projects() {
           animate={inView ? "visible" : "hidden"}
           className="space-y-12"
         >
-          {/* En-tête */}
+          {/* Header */}
           <motion.div variants={itemVariants} className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-              <FolderOpen className="h-4 w-4" />
-              Portfolio
-            </span>
-            <h2 className="mt-5 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Mes Projets <span className="text-gradient">Réalisés</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/30 bg-primary/10 mb-6">
+              <FolderOpen className="h-3.5 w-3.5 text-primary" />
+              <span className="text-xs font-mono text-primary uppercase tracking-widest">03. Projets</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-foreground">
+              Projets <span className="text-gradient">Récents</span>
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              Découvrez une sélection de mes réalisations : sites, applications web et mobiles, challenges et projets personnels.
+            <p className="mt-6 text-muted-foreground text-lg">
+              Découvrez une sélection de mes réalisations techniques.
             </p>
           </motion.div>
 
-          {/* Recherche + filtres */}
+          {/* Search + Filters */}
           <motion.div variants={itemVariants} className="mx-auto max-w-xl space-y-5">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 type="text"
-                placeholder="Rechercher un projet ou une technologie..."
+                placeholder="$ search --project ..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value)
                   resetPagination()
                 }}
-                className="pl-10 pr-4 py-2.5 w-full"
+                className="pl-10 font-mono"
               />
             </div>
 
-            {/* Filtre par technologie */}
             <div className="flex flex-wrap justify-center gap-2">
               <button
                 onClick={() => { setActiveTech(ALL); resetPagination() }}
-                className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-widest transition-colors border ${
                   activeTech === ALL
-                    ? "border-primary/50 bg-primary/15 text-primary"
-                    : "border-border/70 bg-card/30 text-muted-foreground hover:text-foreground"
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border bg-transparent text-muted-foreground hover:text-foreground hover:border-primary/50"
                 }`}
               >
                 Tous
@@ -192,10 +189,10 @@ export default function Projects() {
                 <button
                   key={tech}
                   onClick={() => { setActiveTech(tech); resetPagination() }}
-                  className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 text-xs font-mono uppercase tracking-widest transition-colors border ${
                     activeTech === tech
-                      ? "border-primary/50 bg-primary/15 text-primary"
-                      : "border-border/70 bg-card/30 text-muted-foreground hover:text-foreground"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border bg-transparent text-muted-foreground hover:text-foreground hover:border-primary/50"
                   }`}
                 >
                   {tech}
@@ -204,13 +201,13 @@ export default function Projects() {
             </div>
 
             {searchQuery && (
-              <p className="text-center text-sm text-muted-foreground">
-                {filteredProjects.length} résultat{filteredProjects.length !== 1 ? "s" : ""} trouvé{filteredProjects.length !== 1 ? "s" : ""}
+              <p className="text-center text-sm text-muted-foreground font-mono">
+                <span className="text-primary">$</span> {filteredProjects.length} résultat{filteredProjects.length !== 1 ? "s" : ""} trouvé{filteredProjects.length !== 1 ? "s" : ""}
               </p>
             )}
           </motion.div>
 
-          {/* Grille de projets */}
+          {/* Project Grid */}
           <motion.div
             key={`page-${currentPage}-${showAllProjects}-${activeTech}`}
             initial={{ opacity: 0, y: 20 }}
@@ -236,7 +233,7 @@ export default function Projects() {
               transition={{ duration: 0.4, delay: 0.2 }}
               className="flex justify-center mt-8"
             >
-              <Button size="lg" className="group" onClick={handleToggleProjects} disabled={isLoading}>
+              <Button size="lg" variant="outline" className="group font-mono uppercase tracking-widest border-primary hover:bg-primary/10 hover:text-primary" onClick={handleToggleProjects} disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -245,7 +242,7 @@ export default function Projects() {
                 ) : (
                   <>
                     <ArrowRight className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    Afficher plus de projets
+                    Afficher plus
                   </>
                 )}
               </Button>
@@ -259,7 +256,7 @@ export default function Projects() {
               className="flex flex-col items-center gap-4 mt-8"
             >
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1 || isLoading}>
+                <Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1 || isLoading} className="font-mono uppercase tracking-widest">
                   Précédent
                 </Button>
                 <div className="flex gap-1">
@@ -270,17 +267,17 @@ export default function Projects() {
                       size="sm"
                       onClick={() => handlePageChange(page)}
                       disabled={isLoading}
-                      className="min-w-[40px]"
+                      className="min-w-[40px] font-mono"
                     >
                       {page}
                     </Button>
                   ))}
                 </div>
-                <Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages || isLoading}>
+                <Button variant="outline" size="sm" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages || isLoading} className="font-mono uppercase tracking-widest">
                   Suivant
                 </Button>
               </div>
-              <Button variant="ghost" size="sm" onClick={handleToggleProjects} disabled={isLoading}>
+              <Button variant="ghost" size="sm" onClick={handleToggleProjects} disabled={isLoading} className="font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground">
                 <X className="mr-2 h-4 w-4" />
                 Masquer la pagination
               </Button>
@@ -298,50 +295,57 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       initial={{ opacity: 0, scale: 0.96, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-      whileHover={{ y: -6 }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-primary/15 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-[0_20px_60px_-20px_rgba(139,92,246,0.45)]"
+      className="group flex h-full flex-col overflow-hidden border border-border bg-card hover:border-primary transition-all duration-300 hover:shadow-[0_0_20px_-5px_rgba(34,197,94,0.3)] relative"
     >
-      {/* Image avec overlay */}
-      <div className="relative h-52 overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left z-10" />
+      
+      {/* Image */}
+      <div className="relative h-52 overflow-hidden bg-muted border-b border-border">
         <Image
           src={project.image || "/placeholder.svg?height=400&width=600"}
           alt={project.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
+          className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0815] via-[#0a0815]/30 to-transparent" />
-        <StatusBadge status={project.status} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+        
+        {/* Status Badge */}
+        <div className="absolute top-4 right-4">
+          <StatusBadge status={project.status} />
+        </div>
       </div>
 
-      {/* Contenu */}
-      <div className="flex flex-1 flex-col p-5">
-        <div className="mb-2 flex items-center justify-between">
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5" />
-            {new Date(project.date).toLocaleDateString("fr-FR", { year: "numeric", month: "long" })}
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-6">
+        <div className="mb-3 flex items-center justify-between">
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono uppercase tracking-widest">
+            <Calendar className="h-3.5 w-3.5 text-primary" />
+            {new Date(project.date).toLocaleDateString("fr-FR", { year: "numeric", month: "short" })}
           </span>
         </div>
-        <h3 className="text-xl font-semibold leading-snug text-white">{project.title}</h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+        <h3 className="text-xl font-bold font-mono text-foreground leading-snug mb-2">{project.title}</h3>
+        <p className="mt-1 flex-1 text-sm leading-relaxed text-muted-foreground font-mono">
+          &gt; {project.description}
+        </p>
 
         {/* Technologies */}
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-6 flex flex-wrap gap-2">
           {project.technologies.map((tech: string) => (
             <span
               key={tech}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/40 px-2.5 py-1 text-xs font-medium text-foreground/80"
+              className="inline-flex items-center gap-1.5 border border-border bg-card px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-foreground/80"
             >
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: getTechColor(tech) }} />
+              <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: getTechColor(tech) }} />
               {tech}
             </span>
           ))}
         </div>
 
         {/* Actions */}
-        <div className="mt-5 flex flex-wrap gap-2 border-t border-border/60 pt-4">
+        <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-4">
           {project.link && (
-            <Button variant="outline" size="sm" asChild className="flex-1">
+            <Button variant="outline" size="sm" asChild className="flex-1 font-mono uppercase tracking-widest hover:bg-primary/10 hover:text-primary hover:border-primary">
               <a href={project.link} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1.5 h-4 w-4" />
                 Voir
@@ -349,7 +353,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             </Button>
           )}
           {project.github && (
-            <Button variant="outline" size="sm" asChild className="flex-1">
+            <Button variant="outline" size="sm" asChild className="flex-1 font-mono uppercase tracking-widest hover:bg-primary/10 hover:text-primary hover:border-primary">
               <a href={project.github} target="_blank" rel="noopener noreferrer">
                 <Github className="mr-1.5 h-4 w-4" />
                 Code

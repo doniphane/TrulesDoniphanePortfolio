@@ -39,7 +39,7 @@ function getBadgeClassesForTechnology(technologyName: string): string {
   }
 
   if (lowerCaseName === "supabase" || lowerCaseName === "superbase") {
-    return "border-transparent bg-green-600 text-white hover:opacity-90"
+    return "border-transparent bg-primary text-primary-foreground hover:opacity-90"
   }
 
   if (lowerCaseName === "postgresql") {
