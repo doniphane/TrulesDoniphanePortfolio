@@ -162,26 +162,6 @@ export const projectsData: Project[] = [ {
     ]
   },
 {
-    id: 12,
-    title: "ChallengeAI365Days",
-    description: "Petit projet personnel fun tout les jour mon workflow N8n publie une image générer",
-    technologies: ["ReactJS", "Tailwind CSS"],
-    date: "2025-07-17",
-    image: "/challenge365Day.png",
-    link: "https://challenge365days.noelsonnelly.xyz/",
-    github: "",
-    status: "inactif",
-    projectKey: "challenge-ai-365",
-    versions: [
-      {
-        version: "v1.0",
-        date: "2025-07-17",
-        changes: ["Création du challenge 365 jours", "Interface de galerie d'images", "Intégration avec workflow N8n", "Publication automatique quotidienne"],
-        technologies: ["ReactJS", "Tailwind CSS"],
-        link: "https://challenge365days.noelsonnelly.xyz/"
-      }
-    ]
-  },{
     id: 11,
     title: "Kuroizana-chat",
     description: "Petit projet personnel d'un chat en temps reel pour discuter avec mes amis de CTF",

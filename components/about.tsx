@@ -13,11 +13,8 @@ import {
   BookOpen,
   Terminal,
   Wrench,
-  FolderGit2,
-  CalendarClock,
   Layers,
   Clapperboard,
-  Sparkles,
 } from "lucide-react"
 
 const containerVariants = {
@@ -32,14 +29,6 @@ const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 }
-
-const quickStats = [
-  { icon: FolderGit2, value: "20+", label: "Projets réalisés" },
-  { icon: CalendarClock, value: "3+", label: "Années d'expérience" },
-  { icon: Terminal, value: "15+", label: "Technologies" },
-  { icon: Clapperboard, value: "Vidéo", label: "Contenu créé" },
-  { icon: Sparkles, value: "IA", label: "Solutions intelligentes" },
-]
 
 const journeyTimeline = [
   {
@@ -110,23 +99,7 @@ export default function About() {
             </p>
           </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            variants={itemVariants}
-            className="grid grid-cols-2 gap-4 md:grid-cols-5"
-          >
-            {quickStats.map((stat, i) => (
-              <Card key={stat.label} className="border-border bg-card/50 hover:border-primary/50 transition-colors relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-1 h-full bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom" />
-                <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                  <stat.icon className="h-6 w-6 text-primary mb-3" />
-                  <p className="text-3xl font-bold font-mono text-foreground">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground uppercase tracking-widest mt-1">{stat.label}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </motion.div>
-
+          {/* Tabs */}
           <motion.div variants={itemVariants}>
             <Tabs defaultValue="profile" className="w-full">
               <div className="flex justify-center mb-8">
@@ -202,7 +175,7 @@ export default function About() {
                             </div>
                             <div>
                               <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Passion</p>
-                              <p className="font-medium text-foreground">Créateur de contenu vidéo</p>
+                              <p className="font-medium text-foreground">Streameur</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-4 group">
@@ -213,15 +186,6 @@ export default function About() {
                               <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Passion</p>
                               <p className="font-medium text-foreground">Réparation Informatique</p>
                               <p className="text-xs text-muted-foreground font-mono">Bidouille hardware</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-4 group">
-                            <div className="flex h-10 w-10 items-center justify-center border border-border group-hover:border-primary group-hover:bg-primary/10 transition-colors">
-                              <Sparkles className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
-                            </div>
-                            <div>
-                              <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Passion</p>
-                              <p className="font-medium text-foreground">Intelligence Artificielle</p>
                             </div>
                           </div>
                         </div>
@@ -269,7 +233,7 @@ export default function About() {
               </TabsContent>
 
               <TabsContent value="hobbies" className="mt-0">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <Card className="border-border bg-card hover:border-primary/50 transition-colors relative group overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                     <CardContent className="p-8">
@@ -304,25 +268,6 @@ export default function About() {
                       <div className="flex flex-wrap gap-2">
                         <Badge variant="outline" className="border-primary/30 text-primary font-mono">Assemblage</Badge>
                         <Badge variant="outline" className="border-primary/30 text-primary font-mono">Diagnostic</Badge>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border-border bg-card hover:border-primary/50 transition-colors relative group overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                    <CardContent className="p-8">
-                      <div className="mb-6 flex gap-4 items-center">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-border group-hover:border-primary group-hover:bg-primary/10 transition-colors">
-                          <Sparkles className="h-6 w-6 text-muted-foreground group-hover:text-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold font-mono text-foreground">Intelligence Artificielle</h3>
-                      </div>
-                      <p className="text-sm leading-relaxed text-muted-foreground font-mono mb-6">
-                        &gt; Intégration de solutions intelligentes et automatisées dans mes projets web.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline" className="border-primary/30 text-primary font-mono">Automation</Badge>
-                        <Badge variant="outline" className="border-primary/30 text-primary font-mono">Chatbots</Badge>
                       </div>
                     </CardContent>
                   </Card>
