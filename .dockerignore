@@ -1,4 +1,5 @@
 node_modules
+.next
 .git
 .gitignore
 .env
@@ -8,7 +9,10 @@ Dockerfile*
 docker-compose*
 .vscode
 .idea
+.claude
 coverage
 dist
 out
 *.log
+*.tsbuildinfo
+next-env.d.ts
