@@ -9,7 +9,6 @@ import {
   Mail,
   Github,
   Linkedin,
-  Youtube,
   MessageCircle,
   ArrowUpRight,
   MapPin,
@@ -35,7 +34,6 @@ export default function Contact() {
     { label: "Email", value: "trulesdoniphane974@gmail.com", href: "mailto:trulesdoniphane974@gmail.com", icon: Mail },
     { label: "GitHub", value: "github.com/doniphane", href: "https://github.com/doniphane", icon: Github },
     { label: "LinkedIn", value: "doniphane-trules", href: "https://www.linkedin.com/in/doniphane-trules-970638318/", icon: Linkedin },
-    { label: "YouTube", value: "@noelson9749", href: "https://www.youtube.com/@noelson9749/videos", icon: Youtube },
   ]
 
   return (

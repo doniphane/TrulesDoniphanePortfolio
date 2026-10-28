@@ -8,13 +8,9 @@ import {
   Heart,
   User,
   BookOpen,
-  Terminal,
   Wrench,
-  FolderGit2,
-  CalendarClock,
   Layers,
   Clapperboard,
-  Sparkles,
   ArrowRight,
 } from "lucide-react"
 
@@ -27,14 +23,6 @@ const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 }
-
-const quickStats = [
-  { icon: FolderGit2, value: "20+", label: "Projets réalisés" },
-  { icon: CalendarClock, value: "3+", label: "Années d'expérience" },
-  { icon: Terminal, value: "15+", label: "Technologies" },
-  { icon: Clapperboard, value: "Vidéo", label: "Contenu créé" },
-  { icon: Sparkles, value: "IA", label: "Solutions intelligentes" },
-]
 
 const journeyTimeline = [
   {
@@ -78,7 +66,6 @@ const details = [
   { icon: MapPin, label: "Localisation", value: "Plate Saint-Leu, La Réunion" },
   { icon: Clapperboard, label: "Création vidéo", value: "Montage & présentation" },
   { icon: Wrench, label: "Hardware", value: "Assemblage & réparation PC" },
-  { icon: Sparkles, label: "Intelligence Artificielle", value: "Automation & chatbots" },
 ]
 
 const hobbies = [
@@ -93,12 +80,6 @@ const hobbies = [
     title: "Réparation Informatique",
     desc: "Passionné par le matériel, je répare et optimise des ordinateurs : assemblage de PC, diagnostic de pannes.",
     tags: ["Assemblage PC", "Diagnostic", "Optimisation"],
-  },
-  {
-    icon: Sparkles,
-    title: "Intelligence Artificielle",
-    desc: "Je m'intéresse de près à l'IA et à ses applications pour intégrer des solutions intelligentes dans mes projets.",
-    tags: ["Automation", "Chatbots", "Création assistée"],
   },
 ]
 
@@ -129,30 +110,6 @@ export default function About() {
               Développeur Web & Web Mobile de 25 ans, passionné par la tech
               depuis toujours — entre code, cybersécurité et matériel.
             </p>
-          </motion.div>
-
-          {/* ─── Stats bar ─── */}
-          <motion.div
-            variants={itemVariants}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-border/40 rounded-2xl overflow-hidden"
-          >
-            {quickStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="bg-card/60 backdrop-blur-sm p-6 text-center hover:bg-card transition-colors group"
-              >
-                <stat.icon className="h-5 w-5 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                <p
-                  className="text-3xl font-bold text-foreground"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {stat.value}
-                </p>
-                <p className="text-[11px] text-muted-foreground tracking-wider uppercase mt-1.5">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
           </motion.div>
 
           {/* ─── Bio + Details (2 columns) ─── */}
@@ -287,7 +244,7 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* ─── Passions (3 cards) ─── */}
+          {/* ─── Passions (2 cards) ─── */}
           <motion.div variants={itemVariants}>
             <div className="flex items-center gap-3 mb-8">
               <div className="h-5 w-0.5 bg-primary rounded-full" />
@@ -299,7 +256,7 @@ export default function About() {
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {hobbies.map((hobby, i) => (
                 <motion.div
                   key={hobby.title}

@@ -17,7 +17,6 @@ import {
   Terminal as TerminalIcon,
   Monitor,
   PenTool,
-  Sparkles,
   Blocks,
   Workflow,
 } from "lucide-react"
@@ -51,7 +50,6 @@ const skills: Record<string, Skill[]> = {
     { name: "Linux", description: "Administration et serveurs.", icon: TerminalIcon, color: "#fcc624" },
     { name: "Windows", description: "Déploiement et maintenance.", icon: Monitor, color: "#00a4ef" },
     { name: "WordPress", description: "CMS et thèmes personnalisés.", icon: PenTool, color: "#21759b" },
-    { name: "AI / IA", description: "Intégration de solutions intelligentes.", icon: Sparkles, color: "#c2703e" },
   ],
 }
 
